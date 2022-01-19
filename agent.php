@@ -18,13 +18,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $agent_password = $_POST["agent_password"];
     $confirmpass_proper = $_POST["confirmpass_proper"];
     if($agent_password !=$confirmpass_proper){
-        $error_type = 'fail';
+        $error_type = 'error';
         $error_message = 'Password Mismatched';
     }
     else{
         $conn=Db::get_connection();
         try {
-            $sql = 'INSERT INTO '.Db::$table_agents.'
+            $sql = 'Select  * from '.Db::$table_agents.' where status_approve!="Deleted" and email_agent ="'.$_POST['email_agent'].'"';
+            $row = $conn->query($sql)->fetch();
+            if($row){
+                $error_type = 'error';
+                $error_message = 'Agent with same email already '.$row['status_approve'];
+            }
+            else{
+                $sql = 'INSERT INTO '.Db::$table_agents.'
             (agency_name, ami_licence, agent_name,email_agent,contact_us_txt,password,date_created)
             VALUES (
             "'.$_POST['agency_name'].'",
@@ -35,15 +42,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             "'.$_POST['agent_password'].'",
             "'.time().'"
             )';
-            $conn->exec($sql);
-            $error_type = 'success';
-            $error_message = 'Agent Created Successfully.Please wait for approve';
-            $agency_name='';
-            $ami_licence='';
-            $agent_name='';
-            $email_agent='';
-            $contact_us_txt='';
-            $agency_name='';
+                $conn->exec($sql);
+                $error_type = 'success';
+                $error_message = 'Agent Created Successfully.Please wait for approve';
+                $agency_name='';
+                $ami_licence='';
+                $agent_name='';
+                $email_agent='';
+                $contact_us_txt='';
+                $agency_name='';
+            }
+
         } catch(Exception $e) {
             $error_type = 'fail';
             $error_message = 'Agent Creation Failed';
@@ -170,7 +179,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             </div>
         <?php
         }
-        elseif( $error_type=='fail'){?>
+        elseif( $error_type=='error'){?>
         <div data-form-alert="true">
             <div data-form-alert-success="false" class="alert alert-form alert-danger text-xs-center"><?php echo $error_message; ?></div>
         </div>

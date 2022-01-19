@@ -86,15 +86,14 @@
       <section class="properSale_area" id="house_add">
          <div class="container">
             <div class="propertyTitle simulatorTitle">
-               <h3  class="mbr-section-title display-2">ERROR</h3>
+               <h3  class="mbr-section-title display-2">No Access</h3>
             </div>
 
             <div>
-               Database Error.Please Contact with admin
+               The page you requested you have no access.Please Contact with admin
             </div>
 
          </div>
       </section>
-      
    </body>
 </html>

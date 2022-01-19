@@ -1,9 +1,14 @@
 ﻿<?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
     include_once 'header.php';
     if(User::get_user()){
-        header('location: index.html');
+        $user=User::get_user();
+        if($user['user_group']=='Admin'){
+            header('location: admin_agent_list.php');
+        }
+        elseif($user['user_group']=='Agent'){
+            header('location: add_house.php');
+        }
+
         //echo "<script type='text/javascript'>window.location.href = 'index.html';</script>";
         die();
     }
@@ -16,7 +21,13 @@ ini_set("display_errors", 1);
             if($row){
                 if($row['password']==$_POST['logPass']){
                     $_SESSION['logged_user_id']=$row['id'];
-                    header('location: index.html');
+                    if($row['user_group']=='Admin'){
+                        header('location: admin_agent_list.php');
+                    }
+                    elseif($row['user_group']=='Agent'){
+                        header('location: add_house.php');
+                    }
+
                     //echo "<script type='text/javascript'>window.location.href = 'index.html';</script>";
                     die();
                 }
@@ -144,7 +155,7 @@ ini_set("display_errors", 1);
                      <div class="col-xs-12 col-md-12">
                         <div class="form-group">
                            <label class="form-control-label" for="logPass">Password<span class="form-asterisk">*</span></label>
-                           <input type="text" class="form-control" name="logPass" id="logPass" required="" >
+                           <input type="password" class="form-control" name="logPass" id="logPass" required="" >
                         </div>
                      </div>
                      <div class="col-md-12">

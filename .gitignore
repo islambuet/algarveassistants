@@ -1,0 +1,9 @@
+/assets/
+/php/
+*.html
+robots.txt
+sitemap.xml
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*

@@ -2,8 +2,24 @@
 include_once 'header.php';
 $conn=Db::get_connection();
 $houses=array();
+$state=isset($_GET['state'])?$_GET['state']:'';
+$city=isset($_GET['city'])?$_GET['city']:'';
+$minPrize=isset($_GET['minPrize'])?$_GET['minPrize']:0;
+$maxPrize=isset($_GET['maxPrize'])?$_GET['maxPrize']:0;
+
+$types=isset($_GET['types'])?$_GET['types']:array();
+
 try{
-    $sql = 'Select  * from '.Db::$table_houses.' where status!="Deleted" order by id DESC';
+
+    $sql = 'Select  * from '.Db::$table_houses.' where status!="Deleted" ';
+    $sql.='AND state="'.$state.'"';
+    $sql.='AND city="'.$city.'"';
+    $sql.='AND price>="'.$minPrize.'"';
+    $sql.='AND price<="'.$maxPrize.'"';
+    foreach($types as $type){
+        $sql.='AND types LIKE "%,'.$type.',%"';
+    }
+    $sql.=' order by id DESC';
     $houses = $conn->query($sql)->fetchAll();
 }catch(Exception $e) {
     print_r($e);

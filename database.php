@@ -2,6 +2,7 @@
 class Db{
     public static $table_agents='agents';
     public static $table_users='users';
+    public static $table_houses='houses';
     public static $db = null;
     public static function get_connection($ajax=false){
         $host= "localhost";

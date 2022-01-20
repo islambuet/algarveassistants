@@ -54,7 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             }
 
         } catch(Exception $e) {
-            $error_type = 'fail';
+            $error_type = 'error';
             $error_message = 'Agent Creation Failed';
         }
     }

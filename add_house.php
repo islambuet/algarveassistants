@@ -12,6 +12,7 @@ if($user['user_group']!='Agent'){
 $error_message='';
 $error_type='';
 $conn=Db::get_connection();
+$title='';
 $state='';
 $city='';
 $types='';
@@ -22,6 +23,7 @@ $description='';
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
+    $title=$_POST['title'];
     $state=$_POST['state'];
     $city=$_POST['city'];
     $types=$_POST['types'];
@@ -59,12 +61,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(!$error_type){
         $conn=Db::get_connection();
         try {
-            $sql = 'INSERT INTO '.Db::$table_houses.'(state, city,types,price,agentLicence,description,attachments,date_created,user_created)VALUES(?,?,?,?,?,?,?,?,?)';
-            $conn->prepare($sql)->execute([$state, $city,','.implode(",",$types).',',$price,$agentLicence,$description,json_encode($attachments),time(), $user['id']]);
+            $sql = 'INSERT INTO '.Db::$table_houses.'(title,state, city,types,price,agentLicence,description,attachments,date_created,user_created)VALUES(?,?,?,?,?,?,?,?,?,?)';
+            $conn->prepare($sql)->execute([$title,$state, $city,','.implode(",",$types).',',$price,$agentLicence,$description,json_encode($attachments),time(), $user['id']]);
             $error_type='success';
             $error_message='House added Successfully';
 
             $state='';
+            $title='';
             $city='';
 //            $types=$_POST['types'];
             $price='';
@@ -231,7 +234,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     <div class="col-xs-12 col-md-6">
                         <div class="form-group">
                             <label class="form-control-label" for="askkingPrize">Price<span class="form-asterisk">*</span></label>
-                            <input type="text" class="form-control" name="price" id="askkingPrize" required="" value=" <?php echo $price; ?>">
+                            <input type="number" class="form-control" name="price" id="askkingPrize" required="" step="0.01" value=" <?php echo $price; ?>">
                         </div>
                     </div>
                     <div class="col-xs-12 col-md-6">
@@ -246,11 +249,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             <input type="file" class="form-control" name="attachment[]" id="attachment"  multiple="multiple" required="" >
                         </div>
                     </div>
+                    <div class="col-xs-12 col-md-6">
+                        <div class="form-group">
+                            <label class="form-control-label">Title<span class="form-asterisk">*</span></label>
+                            <input type="text" class="form-control" name="title" required="" value="<?php echo $title; ?>">
+                        </div>
+                    </div>
 
                     <div class="col-xs-12 col-md-12">
                         <div class="form-group">
                             <label class="form-control-label" for="houseDesc">Property Description<span class="form-asterisk">*</span></label>
-                            <textarea class="form-control" name="description" id="houseDesc" rows="5"  value="<?php echo $description; ?>"></textarea>
+                            <textarea class="form-control" name="description" id="houseDesc" rows="5" required=""><?php echo $description; ?></textarea>
                         </div>
                     </div>
 

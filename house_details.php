@@ -182,9 +182,9 @@ try{
                         <p><?php echo $house['description']; ?></p>
                      </div>
                      <div class="houseAbout">
-                        <h4>Energetic Classification: F</h4>
-                        <h5>Licence Number: 111333</h5>
-                        <h6>Advertising Number: 6402</h6>
+<!--                        <h4>Energetic Classification: F</h4>-->
+                        <h5>Licence Number: <?php echo $house['agentLicence']; ?></h5>
+<!--                        <h6>Advertising Number: 6402</h6>-->
                      </div>
                   </div>
                </div>

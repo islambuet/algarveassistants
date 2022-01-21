@@ -1,4 +1,53 @@
-﻿<!DOCTYPE html>
+﻿<?php
+$error_message='';
+$error_type_email='';
+
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    if(isset($_POST['email_simulator'])){
+        $to = "waseem.linuxfreakz@gmail.com";
+        $subject = "Car Tax Simulator!";
+        $message='<html>
+                <head>
+                <title>Car Tax Simulator!</title>
+                </head>
+                <body>
+                <p>Car Tax Simulator!</p>
+                <table border="1">
+                <tbody>
+                ';
+        $message.='<tr><td>Country</td><td>'.$_POST['state'].'</td>';
+        $message.='<tr><td>Type of Car</td><td>'.$_POST['carType'].'</td>';
+        $message.='<tr><td>Car Condition</td><td>'.$_POST['carCondition'].'</td>';
+        $message.='<tr><td>Car Age</td><td>'.$_POST['carAge'].'</td>';
+        $message.='<tr><td>Capacity of the Motor</td><td>'.$_POST['capacityMotor'].'</td>';
+        $message.='<tr><td>Type of Fuel</td><td>'.$_POST['typeFuel'].'</td>';
+        $message.='<tr><td>Particles(Min)</td><td>'.$_POST['particlesMin'].'</td>';
+        $message.='<tr><td>Particles(Max)</td><td>'.$_POST['particlesMin'].'</td>';
+        $message.='<tr><td>Type of Co2 test</td><td>'.$_POST['co2test'].'</td>';
+        $message.='<tr><td>CO2 Emission</td><td>'.$_POST['co2Emission'].'</td>';
+        $message.='<tr><td>Simulation</td><td>'.$_POST['simulation'].'</td>';
+        $message.='</tbody>
+                    </table>
+                    </body>
+                    </html>';
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+
+// More headers
+        $headers .= 'From: waseem.linuxfreakz@gmail.com>' . "\r\n";
+        if(mail($to,$subject,$message,$headers)){
+            $error_message='Successfully sent mail';
+            $error_type_email='success';
+        }
+        else{
+            $error_message='Failed to send email';
+            $error_type_email='error';
+        }
+    }
+}
+
+?>
+<!DOCTYPE html>
 <html  >
    <head>
       <!-- Site made with Mobirise Website Builder v4.10.1, https://mobirise.com -->
@@ -299,7 +348,20 @@
             <div class="simulatorTitle">
                <h3 class="mbr-section-title display-2">Car Tax Simulator</h3>
             </div>
-            
+            <?php
+            if($error_type_email=='success'){?>
+                <div data-form-alert="true">
+                    <div data-form-alert-success="false" class="alert alert-form alert-success text-xs-center"><?php echo $error_message; ?></div>
+                </div>
+            <?php
+            }
+            elseif( $error_type_email=='error'){?>
+                <div data-form-alert="true">
+                    <div data-form-alert-success="false" class="alert alert-form alert-danger text-xs-center"><?php echo $error_message; ?></div>
+                </div>
+            <?php
+            }
+            ?>
             <!-- <div class="row d-flex justify-content-center">
                <div class="col-12">
                   <form class="ajax-form forms2" method="post" action="#">
@@ -415,7 +477,7 @@
  -->
                
             <div class="prperySaleForm" style="padding-top: 75px;">
-               <form action="#" id="addProperty">
+               <form action="" id="addProperty" method="post">
                   <div class="row">
                      <div class="col-xs-12 col-md-6">
                         <div class="form-group">
@@ -432,7 +494,7 @@
                         <div class="form-group">
                            <label class="form-control-label" for="carType">Type of Car <span class="form-asterisk">*</span></label>
                            <div class="select2 animated fadeInUp">
-                              <select class="form-control" name="state" id="carType">
+                              <select class="form-control" name="carType" id="carType">
                                  <option value="Passenger Car">Passenger Car</option>
                                  <option value="7 Seats Car">7 Seats Car</option>
                                  <option value="Hybrids">Hybrids</option>
@@ -446,7 +508,7 @@
                         <div class="form-group">
                            <label class="form-control-label" for="carCondi">Car<span class="form-asterisk">*</span></label>
                            <div class="select2 animated fadeInUp">
-                              <select class="form-control" name="state" id="carCondi">
+                              <select class="form-control" name="carCondition" id="carCondi">
                                  <option value="New Car">New Car</option>
                                  <option value="Used Car">Used Car</option>
                               </select>
@@ -462,14 +524,14 @@
                      <div class="col-xs-12 col-md-6">
                         <div class="form-group">
                            <label class="form-control-label" for="CapacityMotor">Capacity of the Motor<span class="form-asterisk">*</span></label>
-                           <input type="text" class="form-control" name="CapacityMotor" id="CapacityMotor" required="" >
+                           <input type="text" class="form-control" name="capacityMotor" id="CapacityMotor" required="" >
                         </div>
                      </div>
                      <div class="col-xs-12 col-md-6">
                         <div class="form-group">
                            <label class="form-control-label" for="TypeFuel">Type of Fuel<span class="form-asterisk">*</span></label>
                            <div class="select2 animated fadeInUp">
-                              <select class="form-control" name="state" id="TypeFuel">
+                              <select class="form-control" name="typeFuel" id="TypeFuel">
                                  <option value="Diesel">Diesel</option>
                                  <option value="Petrol">Petrol</option>
                               </select>
@@ -481,12 +543,12 @@
                         <div class="row">
                            <div class="col-6 col-sm-6 col-xl-6 col-6">
                               <div class="form-group">
-                                 <input type="text" class="form-control" name="ParticlesMin" id="MinPrize" required="" placeholder=">=0,001">
+                                 <input type="text" class="form-control" name="particlesMin" id="MinPrize" required="" placeholder=">=0,001">
                               </div>
                            </div>
                            <div class="col-6 col-sm-6 col-xl-6 col-6">
                               <div class="form-group">
-                                 <input type="text" class="form-control" name="ParticlesMax" id="MaxPrize" required="" placeholder="<0,001">
+                                 <input type="text" class="form-control" name="particlesMax" id="MaxPrize" required="" placeholder="<0,001">
                               </div>
                            </div>
                         </div>
@@ -495,7 +557,7 @@
                         <div class="form-group">
                            <label class="form-control-label" for="Co2test">Type of Co2 test<span class="form-asterisk">*</span></label>
                            <div class="select2 animated fadeInUp">
-                              <select class="form-control" name="state" id="Co2test">
+                              <select class="form-control" name="co2test" id="Co2test">
                                  <option value="NEDC">NEDC</option>
                                  <option value="WLTP">WLTP</option>
                               </select>
@@ -505,14 +567,14 @@
                      <div class="col-xs-12 col-md-6">
                         <div class="form-group">
                            <label class="form-control-label" for="CO2Emission">CO2 Emission<span class="form-asterisk">*</span></label>
-                           <input type="text" class="form-control" name="CO2Emission" id="CO2Emission" required="" >
+                           <input type="text" class="form-control" name="co2Emission" id="CO2Emission" required="" >
                         </div>
                      </div>
                      <div class="col-xs-12 col-md-6">
                         <div class="form-group">
                            <label class="form-control-label" for="Simulation">Simulation<span class="form-asterisk">*</span></label>
                            <div class="select2 animated fadeInUp">
-                              <select class="form-control" name="state" id="Simulation">
+                              <select class="form-control" name="simulation" id="Simulation">
                                 <option value="01 element -Capacity of the Moto  1,805.08 €">01 element -Capacity of the Moto 1,805.08 €</option>
                                 <option value="02 Element- CO2 145.57 €">02 Element- CO2 145.57 €</option>
                                 <option value="03 Red. Of the years Capacity Motor  631.78 €">03 Red. Of the years Capacity Motor  631.78 €</option>
@@ -525,7 +587,7 @@
                         </div>
                      </div>
                      <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary submitBtn">SUBMIT</button>
+                        <button type="submit" name="email_simulator" class="btn btn-primary submitBtn">SUBMIT</button>
                      </div>
                   </div>
                </form>

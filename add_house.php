@@ -5,10 +5,6 @@ if(!$user){
     header('location: login.php');
     die();
 }
-if($user['user_group']!='Agent'){
-    header('location: no_access.php');
-    die();
-}
 $error_message='';
 $error_type='';
 $conn=Db::get_connection();
@@ -159,15 +155,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
 
-<div class="dashboard_header">
+<!-- <div class="dashboard_header">
     <div class="container">
         <div class="dash_nav">
             <a href="../" class="dashBrand"><img src="assets/images/logo-126x128-85.png" alt="Logo"> Algarve Assistants</a>
         </div>
     </div>
 </div>
+ -->
 
 
+    
+    <?php 
+        include "menu.php";
+    ?>
 
 <section class="properSale_area" id="house_add">
     <div class="container">

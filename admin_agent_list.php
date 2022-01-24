@@ -164,15 +164,21 @@
    </head>
    <body>
 
-      <div class="dashboard_header">
+<!--       <div class="dashboard_header">
          <div class="container">
             <div class="dash_nav">
                <a href="../" class="dashBrand"><img src="assets/images/logo-126x128-85.png" alt="Logo"> Algarve Assistants</a>
             </div>
          </div>
-      </div>
+      </div> -->
 
 
+
+      
+    <?php 
+        include "menu.php";
+    ?>
+      
 
       <section class="properSale_area" id="house_add">
          <div class="container">
